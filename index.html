@@ -236,34 +236,353 @@
             60% { transform: translateX(-50%) translateY(-5px) translateZ(0); }
         }
         
-        /* Responsive Design */
+        /* Enhanced Responsive Design */
+        
+        /* Large tablets and small desktops */
+        @media (max-width: 1024px) {
+            .fighter-name {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+            
+            .fighter-gif {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .vs-text {
+                font-size: 6rem;
+            }
+            
+            .birthday-title {
+                font-size: 3.5rem;
+            }
+            
+            .birthday-photo {
+                width: 350px;
+                height: 350px;
+            }
+        }
+        
+        /* Tablets */
         @media (max-width: 768px) {
             .battle-container {
                 flex-direction: column;
                 padding: 1rem;
+                height: auto;
+                min-height: 100vh;
+            }
+            
+            .fighter {
+                padding: 1.5rem 1rem;
+                margin: 1rem 0;
             }
             
             .fighter-name {
-                font-size: 2rem;
+                font-size: 2.2rem;
+                margin-bottom: 1.5rem;
+                letter-spacing: 1px;
+            }
+            
+            .fighter-gif {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .vs-section {
+                position: static;
+                transform: none;
+                margin: 2rem 0;
+                order: 2;
+            }
+            
+            .gojo {
+                order: 1;
+            }
+            
+            .sukuna {
+                order: 3;
+            }
+            
+            .vs-text {
+                font-size: 5rem;
+                position: relative;
+                transform: none !important;
+            }
+            
+            .birthday-section {
+                padding: 3rem 1.5rem;
+            }
+            
+            .birthday-title {
+                font-size: 2.8rem;
+                margin-bottom: 2rem;
+            }
+            
+            .birthday-photo {
+                width: 320px;
+                height: 320px;
+            }
+            
+            .scroll-indicator {
+                position: relative;
+                margin-top: 2rem;
+                transform: none;
+            }
+            
+            /* Adjust auras for mobile */
+            .gojo::before,
+            .sukuna::before {
+                top: -30px;
+                left: -30px;
+                right: -30px;
+                bottom: -30px;
+            }
+        }
+        
+        /* Small tablets and large phones */
+        @media (max-width: 640px) {
+            .battle-container {
+                padding: 0.5rem;
+            }
+            
+            .fighter {
+                padding: 1rem 0.5rem;
+            }
+            
+            .fighter-name {
+                font-size: 1.8rem;
                 margin-bottom: 1rem;
             }
             
             .fighter-gif {
-                width: 200px;
-                height: 200px;
+                width: 180px;
+                height: 180px;
             }
             
             .vs-text {
                 font-size: 4rem;
             }
             
+            .birthday-section {
+                padding: 2rem 1rem;
+            }
+            
             .birthday-title {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
+                line-height: 1.2;
             }
             
             .birthday-photo {
-                width: 300px;
-                height: 300px;
+                width: 280px;
+                height: 280px;
+            }
+            
+            .birthday-section div p {
+                font-size: 1.2rem !important;
+            }
+            
+            .birthday-section div p:last-child {
+                font-size: 1rem !important;
+            }
+        }
+        
+        /* Mobile phones */
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+            
+            .battle-container {
+                padding: 0.5rem;
+                gap: 1rem;
+            }
+            
+            .fighter {
+                padding: 0.8rem 0.3rem;
+                margin: 0.5rem 0;
+            }
+            
+            .fighter-name {
+                font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+                letter-spacing: 1px;
+            }
+            
+            .fighter-gif {
+                width: 150px;
+                height: 150px;
+                border-width: 3px;
+            }
+            
+            .vs-section {
+                margin: 1rem 0;
+            }
+            
+            .vs-text {
+                font-size: 3rem;
+            }
+            
+            .birthday-section {
+                padding: 1.5rem 0.8rem;
+                min-height: auto;
+            }
+            
+            .birthday-title {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.1;
+            }
+            
+            .birthday-photo {
+                width: 240px;
+                height: 240px;
+                border-radius: 15px;
+                border-width: 3px;
+            }
+            
+            .photo-container {
+                margin: 1.5rem 0;
+            }
+            
+            .birthday-section div {
+                margin-top: 1.5rem !important;
+            }
+            
+            .birthday-section div p {
+                font-size: 1.1rem !important;
+                margin-bottom: 0.8rem !important;
+                line-height: 1.3;
+            }
+            
+            .birthday-section div p:last-child {
+                font-size: 0.9rem !important;
+                line-height: 1.4;
+            }
+            
+            .scroll-indicator {
+                font-size: 1rem;
+                margin-top: 1.5rem;
+            }
+            
+            /* Reduce aura effects on mobile */
+            .gojo::before,
+            .sukuna::before {
+                top: -20px;
+                left: -20px;
+                right: -20px;
+                bottom: -20px;
+            }
+        }
+        
+        /* Very small phones */
+        @media (max-width: 360px) {
+            .fighter-name {
+                font-size: 1.3rem;
+                margin-bottom: 0.6rem;
+            }
+            
+            .fighter-gif {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .vs-text {
+                font-size: 2.5rem;
+            }
+            
+            .birthday-title {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+            
+            .birthday-photo {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .birthday-section div p {
+                font-size: 1rem !important;
+            }
+            
+            .birthday-section div p:last-child {
+                font-size: 0.85rem !important;
+            }
+        }
+        
+        /* Landscape orientation fixes */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .battle-container {
+                height: auto;
+                min-height: 100vh;
+                padding: 1rem;
+            }
+            
+            .fighter {
+                padding: 1rem;
+            }
+            
+            .fighter-name {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .fighter-gif {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .vs-text {
+                font-size: 3.5rem;
+            }
+            
+            .birthday-section {
+                padding: 2rem 1rem;
+            }
+            
+            .birthday-title {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .birthday-photo {
+                width: 250px;
+                height: 250px;
+            }
+        }
+        
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .fighter-gif,
+            .birthday-photo {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+        
+        /* Hover effects only on devices that support hover */
+        @media (hover: hover) and (pointer: fine) {
+            .fighter-gif:hover {
+                transform: scale(1.05) translateZ(0);
+                transition: transform 0.3s ease;
+            }
+            
+            .birthday-photo:hover {
+                transform: scale(1.02) translateZ(0);
+                transition: transform 0.3s ease;
+            }
+        }
+        
+        /* Touch-friendly adjustments */
+        @media (pointer: coarse) {
+            .scroll-indicator {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+            
+            .birthday-photo {
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
             }
         }
         
@@ -486,9 +805,58 @@
             });
         });
         
+        // Enhanced mobile optimizations
+        function optimizeForDevice() {
+            const isMobile = window.innerWidth <= 768;
+            const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+            
+            if (isMobile || isLowEnd) {
+                // Reduce animation frequency on mobile/low-end devices
+                const style = document.createElement('style');
+                style.textContent = `
+                    .birthday-section::before {
+                        animation-duration: 40s !important;
+                    }
+                    @keyframes float {
+                        0%, 100% { transform: translateY(0px) translateZ(0); }
+                        50% { transform: translateY(-10px) translateZ(0); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Handle orientation changes
+        function handleOrientationChange() {
+            setTimeout(() => {
+                // Recalculate VS text position after orientation change
+                if (vsText) {
+                    vsText.style.transform = 'translate(-50%, -50%) translateZ(0)';
+                }
+                
+                // Restart animations smoothly
+                const animatedElements = document.querySelectorAll('.fighter-gif, .birthday-photo');
+                animatedElements.forEach(el => {
+                    el.style.animation = 'none';
+                    el.offsetHeight; // Trigger reflow
+                    el.style.animation = null;
+                });
+            }, 100);
+        }
+        
+        // Initialize mobile optimizations
+        optimizeForDevice();
+        
+        // Handle screen resize and orientation change
+        window.addEventListener('resize', () => {
+            optimizeForDevice();
+            handleOrientationChange();
+        });
+        
+        window.addEventListener('orientationchange', handleOrientationChange);
+        
         // Reduce animations on low-end devices
         if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
-            // Disable some heavy animations on low-end devices
             document.documentElement.style.setProperty('--reduced-motion', '1');
         }
     </script>
