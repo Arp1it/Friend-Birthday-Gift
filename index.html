@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gojo vs Sukuna - Epic Birthday Battle</title>
+    <link rel="icon" type="image/x-icon" href="birthday-cake.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         
@@ -354,10 +355,16 @@
                 }, 300);
             });
             
-            // Add sparkle effect on scroll
+            // Throttle sparkle effect on scroll to reduce lag
+            let lastSparkleTime = 0;
+            const sparkleThrottle = 200; // milliseconds
             window.addEventListener('scroll', function() {
                 if (window.scrollY > window.innerHeight * 0.5) {
-                    createSparkles();
+                    const now = Date.now();
+                    if (now - lastSparkleTime > sparkleThrottle) {
+                        createSparkles();
+                        lastSparkleTime = now;
+                    }
                 }
             });
             
