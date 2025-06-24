@@ -18,12 +18,20 @@
             font-family: 'Orbitron', monospace;
             background: linear-gradient(45deg, #000428, #004e92, #9d50bb, #6a0d83);
             background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
             color: white;
             overflow-x: hidden;
-            /* Performance optimizations */
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
+            /* Maximum GPU acceleration */
+            transform: translate3d(0,0,0);
+            -webkit-transform: translate3d(0,0,0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Only essential animations - static background for zero lag */
+        @media (prefers-reduced-motion: no-preference) {
+            body {
+                animation: gradientShift 15s ease infinite;
+            }
         }
         
         @keyframes gradientShift {
@@ -39,9 +47,9 @@
             justify-content: space-between;
             padding: 0 2rem;
             position: relative;
-            /* GPU acceleration */
-            will-change: transform;
-            transform: translateZ(0);
+            /* Maximum optimization */
+            contain: layout style paint;
+            transform: translate3d(0,0,0);
         }
         
         .fighter {
@@ -52,9 +60,9 @@
             justify-content: center;
             padding: 2rem;
             position: relative;
-            /* GPU acceleration */
-            will-change: transform;
-            transform: translateZ(0);
+            /* Contain layout changes */
+            contain: layout style;
+            transform: translate3d(0,0,0);
         }
         
         .fighter-name {
@@ -64,14 +72,19 @@
             letter-spacing: 3px;
             margin-bottom: 2rem;
             text-shadow: 0 0 20px currentColor;
-            animation: pulse 2s ease-in-out infinite alternate;
-            /* GPU acceleration */
-            will-change: text-shadow;
+            /* Minimal animation only if motion allowed */
+            transform: translate3d(0,0,0);
+        }
+        
+        @media (prefers-reduced-motion: no-preference) {
+            .fighter-name {
+                animation: pulse 3s ease-in-out infinite alternate;
+            }
         }
         
         @keyframes pulse {
             from { text-shadow: 0 0 20px currentColor; }
-            to { text-shadow: 0 0 40px currentColor, 0 0 60px currentColor; }
+            to { text-shadow: 0 0 30px currentColor, 0 0 40px currentColor; }
         }
         
         .gojo {
@@ -87,27 +100,30 @@
             height: 300px;
             border-radius: 50%;
             border: 5px solid currentColor;
-            box-shadow: 0 0 50px currentColor;
-            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 0 30px currentColor;
             object-fit: cover;
-            /* GPU acceleration */
-            will-change: transform;
-            transform: translateZ(0);
+            /* Maximum optimization */
+            transform: translate3d(0,0,0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            /* Remove floating animation for zero lag */
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg) translateZ(0); }
-            50% { transform: translateY(-20px) rotate(5deg) translateZ(0); }
+        /* Subtle hover only - no automatic animations */
+        @media (hover: hover) and (pointer: fine) {
+            .fighter-gif:hover {
+                transform: translate3d(0,-5px,0) scale(1.02);
+                transition: transform 0.2s ease;
+            }
         }
         
         .vs-section {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) translate3d(0,0,0);
             z-index: 10;
-            /* GPU acceleration */
-            will-change: transform;
+            contain: layout style;
         }
         
         .vs-text {
@@ -117,29 +133,9 @@
             text-shadow: 
                 0 0 10px #ff6b6b,
                 0 0 20px #4ecdc4,
-                0 0 30px #45b7d1,
-                0 0 40px #96ceb4;
-            animation: vsGlow 1.5s ease-in-out infinite alternate;
-            /* GPU acceleration */
-            will-change: transform, text-shadow;
-        }
-        
-        @keyframes vsGlow {
-            from { 
-                transform: scale(1) rotate(-2deg) translateZ(0);
-                text-shadow: 
-                    0 0 10px #ff6b6b,
-                    0 0 20px #4ecdc4,
-                    0 0 30px #45b7d1;
-            }
-            to { 
-                transform: scale(1.1) rotate(2deg) translateZ(0);
-                text-shadow: 
-                    0 0 20px #ff6b6b,
-                    0 0 40px #4ecdc4,
-                    0 0 60px #45b7d1,
-                    0 0 80px #96ceb4;
-            }
+                0 0 30px #45b7d1;
+            transform: translate3d(0,0,0);
+            /* Remove glow animation for zero lag */
         }
         
         .birthday-section {
@@ -152,11 +148,11 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             position: relative;
             overflow: hidden;
-            /* GPU acceleration */
-            transform: translateZ(0);
+            transform: translate3d(0,0,0);
+            contain: layout style paint;
         }
         
-        /* Optimized confetti - reduced frequency */
+        /* Static confetti - no animation for zero lag */
         .birthday-section::before {
             content: '';
             position: absolute;
@@ -166,15 +162,8 @@
             bottom: 0;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎉</text></svg>') repeat;
             opacity: 0.1;
-            animation: confetti 30s linear infinite;
-            /* GPU acceleration */
-            will-change: transform;
-            transform: translateZ(0);
-        }
-        
-        @keyframes confetti {
-            0% { transform: translateY(-100px) rotate(0deg) translateZ(0); }
-            100% { transform: translateY(100vh) rotate(360deg) translateZ(0); }
+            transform: translate3d(0,0,0);
+            /* No animation */
         }
         
         .birthday-title {
@@ -183,14 +172,8 @@
             text-align: center;
             margin-bottom: 3rem;
             text-shadow: 0 0 30px rgba(255,255,255,0.8);
-            animation: birthday-glow 2s ease-in-out infinite alternate;
-            /* GPU acceleration */
-            will-change: text-shadow;
-        }
-        
-        @keyframes birthday-glow {
-            from { text-shadow: 0 0 30px rgba(255,255,255,0.8); }
-            to { text-shadow: 0 0 50px rgba(255,255,255,1), 0 0 70px #00d4ff; }
+            transform: translate3d(0,0,0);
+            /* Remove glow animation for zero lag */
         }
         
         .photo-container {
@@ -205,35 +188,49 @@
             border: 5px solid #fff;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             object-fit: cover;
-            animation: photo-bounce 4s ease-in-out infinite;
-            /* GPU acceleration */
-            will-change: transform;
-            transform: translateZ(0);
-        }
-        
-        @keyframes photo-bounce {
-            0%, 100% { transform: translateY(0px) scale(1) translateZ(0); }
-            25% { transform: translateY(-10px) scale(1.02) translateZ(0); }
-            50% { transform: translateY(0px) scale(1) translateZ(0); }
-            75% { transform: translateY(-5px) scale(1.01) translateZ(0); }
+            transform: translate3d(0,0,0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            /* Remove bounce animation for zero lag */
         }
         
         .scroll-indicator {
             position: absolute;
             bottom: 2rem;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translate3d(0,0,0);
             color: rgba(255,255,255,0.8);
             font-size: 1.2rem;
-            animation: bounce 2s infinite;
-            /* GPU acceleration */
-            will-change: transform;
+            /* Remove bounce animation for zero lag */
         }
         
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0) translateZ(0); }
-            40% { transform: translateX(-50%) translateY(-10px) translateZ(0); }
-            60% { transform: translateX(-50%) translateY(-5px) translateZ(0); }
+        /* Static energy auras - no animation for zero lag */
+        .gojo::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+            background: radial-gradient(circle, rgba(0,212,255,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            transform: translate3d(0,0,0);
+            /* No animation */
+        }
+        
+        .sukuna::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+            background: radial-gradient(circle, rgba(255,71,87,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            transform: translate3d(0,0,0);
+            /* No animation */
         }
         
         /* Enhanced Responsive Design */
@@ -307,7 +304,7 @@
             .vs-text {
                 font-size: 5rem;
                 position: relative;
-                transform: none !important;
+                transform: translate3d(0,0,0);
             }
             
             .birthday-section {
@@ -327,16 +324,16 @@
             .scroll-indicator {
                 position: relative;
                 margin-top: 2rem;
-                transform: none;
+                transform: translate3d(0,0,0);
             }
             
             /* Adjust auras for mobile */
             .gojo::before,
             .sukuna::before {
-                top: -30px;
-                left: -30px;
-                right: -30px;
-                bottom: -30px;
+                top: -20px;
+                left: -20px;
+                right: -20px;
+                bottom: -20px;
             }
         }
         
@@ -391,6 +388,9 @@
         @media (max-width: 480px) {
             body {
                 font-size: 14px;
+                /* Disable background animation on mobile for zero lag */
+                animation: none;
+                background-position: 0% 50%;
             }
             
             .battle-container {
@@ -407,6 +407,8 @@
                 font-size: 1.5rem;
                 margin-bottom: 0.8rem;
                 letter-spacing: 1px;
+                /* Disable animation on mobile */
+                animation: none;
             }
             
             .fighter-gif {
@@ -468,10 +470,11 @@
             /* Reduce aura effects on mobile */
             .gojo::before,
             .sukuna::before {
-                top: -20px;
-                left: -20px;
-                right: -20px;
-                bottom: -20px;
+                top: -15px;
+                left: -15px;
+                right: -15px;
+                bottom: -15px;
+                opacity: 0.5;
             }
         }
         
@@ -512,6 +515,11 @@
         
         /* Landscape orientation fixes */
         @media (max-height: 600px) and (orientation: landscape) {
+            body {
+                animation: none;
+                background-position: 0% 50%;
+            }
+            
             .battle-container {
                 height: auto;
                 min-height: 100vh;
@@ -525,6 +533,7 @@
             .fighter-name {
                 font-size: 1.8rem;
                 margin-bottom: 0.8rem;
+                animation: none;
             }
             
             .fighter-gif {
@@ -560,19 +569,6 @@
             }
         }
         
-        /* Hover effects only on devices that support hover */
-        @media (hover: hover) and (pointer: fine) {
-            .fighter-gif:hover {
-                transform: scale(1.05) translateZ(0);
-                transition: transform 0.3s ease;
-            }
-            
-            .birthday-photo:hover {
-                transform: scale(1.02) translateZ(0);
-                transition: transform 0.3s ease;
-            }
-        }
-        
         /* Touch-friendly adjustments */
         @media (pointer: coarse) {
             .scroll-indicator {
@@ -586,74 +582,26 @@
             }
         }
         
-        /* Optimized energy auras */
-        .gojo::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            right: -50px;
-            bottom: -50px;
-            background: radial-gradient(circle, rgba(0,212,255,0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: aura-gojo 3s ease-in-out infinite alternate;
-            z-index: -1;
-            /* GPU acceleration */
-            will-change: transform, opacity;
-            transform: translateZ(0);
-        }
-        
-        .sukuna::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            right: -50px;
-            bottom: -50px;
-            background: radial-gradient(circle, rgba(255,71,87,0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: aura-sukuna 3s ease-in-out infinite alternate;
-            z-index: -1;
-            /* GPU acceleration */
-            will-change: transform, opacity;
-            transform: translateZ(0);
-        }
-        
-        @keyframes aura-gojo {
-            from { transform: scale(1) translateZ(0); opacity: 0.3; }
-            to { transform: scale(1.2) translateZ(0); opacity: 0.6; }
-        }
-        
-        @keyframes aura-sukuna {
-            from { transform: scale(1) translateZ(0); opacity: 0.3; }
-            to { transform: scale(1.2) translateZ(0); opacity: 0.6; }
-        }
-
-        /* Sparkle animation optimization */
-        @keyframes sparkle {
-            0% {
-                opacity: 1;
-                transform: scale(0) rotate(0deg) translateZ(0);
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
-            50% {
-                opacity: 1;
-                transform: scale(1) rotate(180deg) translateZ(0);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0) rotate(360deg) translateZ(0);
+            
+            body {
+                animation: none;
+                background-position: 0% 50%;
             }
         }
         
-        .sparkle {
-            position: fixed;
-            font-size: 2rem;
-            pointer-events: none;
-            z-index: 1000;
-            animation: sparkle 2s ease-out forwards;
-            /* GPU acceleration */
-            will-change: transform, opacity;
-            transform: translateZ(0);
+        /* Performance-first class for zero lag */
+        .zero-lag * {
+            animation: none !important;
+            transition: none !important;
         }
     </style>
 </head>
@@ -699,166 +647,55 @@
     </section>
 
     <script>
-        // Performance optimizations
-        let ticking = false;
-        let lastSparkleTime = 0;
-        const sparkleThrottle = 500; // Increased throttle time for better performance
-        const vsText = document.querySelector('.vs-text');
-        
-        // Optimized scroll handler using requestAnimationFrame
-        function updateParallax() {
-            const scrolled = window.pageYOffset;
-            
-            // Parallax effect for VS text (less frequent updates)
-            if (vsText && scrolled < window.innerHeight) {
-                const rate = scrolled * -0.3; // Reduced parallax intensity
-                const rotation = scrolled * 0.05; // Reduced rotation
-                vsText.style.transform = `translate(-50%, -50%) translateY(${rate}px) rotate(${rotation}deg) translateZ(0)`;
-            }
-            
-            // Sparkle effect with better throttling
-            if (scrolled > window.innerHeight * 0.5) {
-                const now = Date.now();
-                if (now - lastSparkleTime > sparkleThrottle) {
-                    createSparkles();
-                    lastSparkleTime = now;
-                }
-            }
-            
-            ticking = false;
-        }
-        
-        function requestTick() {
-            if (!ticking) {
-                requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
-        }
-        
-        // Optimized sparkle creation (fewer sparkles)
-        function createSparkles() {
-            // Create only 1-2 sparkles per call instead of random amount
-            const sparkleCount = Math.random() > 0.5 ? 1 : 2;
-            
-            for (let i = 0; i < sparkleCount; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.innerHTML = '✨';
-                sparkle.className = 'sparkle';
-                sparkle.style.left = Math.random() * window.innerWidth + 'px';
-                sparkle.style.top = Math.random() * window.innerHeight + 'px';
-                
-                document.body.appendChild(sparkle);
-                
-                // Remove sparkle after animation
-                setTimeout(() => {
-                    if (sparkle.parentNode) {
-                        sparkle.parentNode.removeChild(sparkle);
-                    }
-                }, 2000);
-            }
-        }
-        
-        // Optimized event listeners
+        // Ultra-lightweight script for zero lag
         document.addEventListener('DOMContentLoaded', function() {
-            // Smooth scrolling
-            const scrollIndicator = document.querySelector('.scroll-indicator');
-            scrollIndicator.addEventListener('click', function() {
-                document.getElementById('birthday').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-            
-            // Optimized scroll listener
-            window.addEventListener('scroll', requestTick, { passive: true });
-            
-            // Enhanced floating animation on hover (optimized)
-            const fighterGifs = document.querySelectorAll('.fighter-gif');
-            fighterGifs.forEach(gif => {
-                gif.addEventListener('mouseenter', function() {
-                    this.style.animationDuration = '0.8s'; // Slightly slower for smoother performance
-                }, { passive: true });
-                
-                gif.addEventListener('mouseleave', function() {
-                    this.style.animationDuration = '3s';
-                }, { passive: true });
-            });
-            
-            // Birthday photo click effect (optimized)
-            const birthdayPhoto = document.getElementById('birthdayPhoto');
-            let photoClickTimeout;
-            birthdayPhoto.addEventListener('click', function() {
-                // Clear any existing timeout
-                if (photoClickTimeout) {
-                    clearTimeout(photoClickTimeout);
-                }
-                
-                this.style.transition = 'transform 0.3s ease';
-                this.style.transform = 'scale(1.1) rotate(5deg) translateZ(0)';
-                
-                photoClickTimeout = setTimeout(() => {
-                    this.style.transform = 'scale(1) rotate(0deg) translateZ(0)';
-                    // Remove transition after animation
-                    setTimeout(() => {
-                        this.style.transition = '';
-                    }, 300);
-                }, 300);
-            });
-        });
-        
-        // Enhanced mobile optimizations
-        function optimizeForDevice() {
-            const isMobile = window.innerWidth <= 768;
+            // Detect low-end devices and disable all animations
             const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+            const isMobile = window.innerWidth <= 768;
             
-            if (isMobile || isLowEnd) {
-                // Reduce animation frequency on mobile/low-end devices
-                const style = document.createElement('style');
-                style.textContent = `
-                    .birthday-section::before {
-                        animation-duration: 40s !important;
-                    }
-                    @keyframes float {
-                        0%, 100% { transform: translateY(0px) translateZ(0); }
-                        50% { transform: translateY(-10px) translateZ(0); }
-                    }
-                `;
-                document.head.appendChild(style);
+            if (isLowEnd || isMobile) {
+                document.body.classList.add('zero-lag');
             }
-        }
-        
-        // Handle orientation changes
-        function handleOrientationChange() {
-            setTimeout(() => {
-                // Recalculate VS text position after orientation change
-                if (vsText) {
-                    vsText.style.transform = 'translate(-50%, -50%) translateZ(0)';
-                }
-                
-                // Restart animations smoothly
-                const animatedElements = document.querySelectorAll('.fighter-gif, .birthday-photo');
-                animatedElements.forEach(el => {
-                    el.style.animation = 'none';
-                    el.offsetHeight; // Trigger reflow
-                    el.style.animation = null;
-                });
-            }, 100);
-        }
-        
-        // Initialize mobile optimizations
-        optimizeForDevice();
-        
-        // Handle screen resize and orientation change
-        window.addEventListener('resize', () => {
-            optimizeForDevice();
-            handleOrientationChange();
+            
+            // Simple smooth scroll only
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (scrollIndicator) {
+                scrollIndicator.addEventListener('click', function() {
+                    const birthdaySection = document.getElementById('birthday');
+                    if (birthdaySection) {
+                        birthdaySection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, { passive: true });
+            }
+            
+            // Simple photo click effect
+            const birthdayPhoto = document.getElementById('birthdayPhoto');
+            if (birthdayPhoto) {
+                birthdayPhoto.addEventListener('click', function() {
+                    this.style.transform = 'translate3d(0,0,0) scale(1.05)';
+                    setTimeout(() => {
+                        this.style.transform = 'translate3d(0,0,0) scale(1)';
+                    }, 200);
+                }, { passive: true });
+            }
         });
         
-        window.addEventListener('orientationchange', handleOrientationChange);
-        
-        // Reduce animations on low-end devices
-        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
-            document.documentElement.style.setProperty('--reduced-motion', '1');
-        }
+        // Minimal resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Force repaint only if needed
+                if (window.innerWidth <= 768) {
+                    document.body.classList.add('zero-lag');
+                } else {
+                    document.body.classList.remove('zero-lag');
+                }
+            }, 250);
+        }, { passive: true });
     </script>
 </body>
 </html>
